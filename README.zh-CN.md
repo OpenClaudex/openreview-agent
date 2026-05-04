@@ -1,6 +1,10 @@
 # 🚀 OpenReview Agent
 
 <p align="center">
+  <img src="docs/assets/openreview-agent-cover.png" alt="OpenReview Agent cover" width="560">
+</p>
+
+<p align="center">
   <strong>面向 OpenReview 投稿工作流的 Agent Skill 与 CLI 工具包。</strong>
 </p>
 

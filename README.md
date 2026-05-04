@@ -1,6 +1,10 @@
 # 🚀 OpenReview Agent
 
 <p align="center">
+  <img src="docs/assets/openreview-agent-cover.png" alt="OpenReview Agent cover" width="560">
+</p>
+
+<p align="center">
   <strong>Agent skill and CLI toolkit for safe OpenReview submission workflows.</strong>
 </p>
 
