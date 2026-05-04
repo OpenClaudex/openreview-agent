@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.env
+.env.*
+.venv/
+venv/
+.DS_Store
+*.log
+/tmp/
+openreview_exports/
+*.pdf
+*.zip
+*.jsonl.local

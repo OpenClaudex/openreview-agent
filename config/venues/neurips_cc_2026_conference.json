@@ -1,0 +1,8 @@
+{
+  "_comment": "Venue-specific overrides for NeurIPS 2026 Conference. Only fill fields you actually need to override; the rest are auto-copied when names match.",
+  "rename_map": {},
+  "defaults": {},
+  "extras_from_source": {
+    "_previous_submission_forum_note": "__source_forum_id__"
+  }
+}
