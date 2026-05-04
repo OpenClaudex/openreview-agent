@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="README.zh-CN.md">中文文档</a> •
   <a href="#-features">Features</a> •
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-workflows">Workflows</a> •
@@ -61,72 +62,9 @@ cd openreview-agent
 pip install -r requirements.txt
 ```
 
-Configure OpenReview credentials. Prefer tokens when available:
+After installation, use it through natural-language agent instructions. For example, ask your coding agent to inspect an OpenReview submission, match author profiles with affiliation evidence, prepare a cross-venue transfer dry-run, or batch-create submissions only after explicit confirmation.
 
-```bash
-export OPENREVIEW_TOKEN=...
-```
-
-Or use username/password via environment variables or the interactive prompt:
-
-```bash
-export OPENREVIEW_USERNAME=you@example.com
-export OPENREVIEW_PASSWORD=...
-```
-
-### Inspect before writing
-
-```bash
-python3 scripts/or_transfer.py inspect \
-  --forum-id https://openreview.net/forum?id=ABC123
-```
-
-### Match author profiles with affiliation evidence
-
-```bash
-python3 scripts/or_transfer.py profile-match \
-  --name "Rang Li" \
-  --affiliation "Peking University"
-```
-
-### Cross-venue transfer dry-run
-
-```bash
-python3 scripts/or_transfer.py transfer \
-  --source https://openreview.net/forum?id=ABC123 \
-  --target-venue NeurIPS.cc/2026/Conference \
-  --work-dir /tmp/or_transfer/
-```
-
-Real writes require explicit confirmation:
-
-```bash
-python3 scripts/or_transfer.py transfer \
-  --source https://openreview.net/forum?id=ABC123 \
-  --target-venue NeurIPS.cc/2026/Conference \
-  --work-dir /tmp/or_transfer/ \
-  --apply --i-confirm
-```
-
-### Batch submission dry-run
-
-```bash
-python3 scripts/or_batch.py \
-  --input-file submissions.jsonl \
-  --venue-id NeurIPS.cc/2026/Conference \
-  --signature ~First_Last1 \
-  --out-file /tmp/or_batch_payload.json
-```
-
-Real batch creation requires:
-
-```bash
-python3 scripts/or_batch.py \
-  --input-file submissions.jsonl \
-  --venue-id NeurIPS.cc/2026/Conference \
-  --signature ~First_Last1 \
-  --apply --i-confirm-batch --await-process
-```
+OpenReview credentials can be provided through a token, environment variables, or the interactive prompt. Low-level command details live in [SKILL.md](SKILL.md), not in this README.
 
 ## ✨ Features
 
@@ -148,7 +86,7 @@ OpenReview Agent focuses on author-side OpenReview workflows:
 | Stable | Inspect existing submissions | Read note metadata, authors, authorids, content keys, license, and editable schema |
 | Stable | Profile matching | Rank candidate OpenReview profiles by name and affiliation evidence |
 | Stable | Cross-venue transfer preflight | Fetch source note, plan field mapping, validate target schema, emit dry-run payload |
-| Stable | Safe apply | Write only with `--apply --i-confirm` or `--i-confirm-batch`, then re-check OpenReview state |
+| Stable | Safe apply | Write only after explicit confirmation, then re-check OpenReview state |
 | Limited | Batch submissions | JSON/JSONL input, attachment handling, per-record errors, user-owned policy responsibility |
 | Best-effort | Venue-specific custom forms | Schema fallback and manual verification recommended |
 
