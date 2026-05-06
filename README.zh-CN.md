@@ -33,13 +33,13 @@
 
 > [!IMPORTANT]
 > **📚 从手工填表到 submission-native agents。**  
-> OpenReview 工作流不只是一个提交按钮：作者需要对齐 venue schema、作者 profile ID、reviewer nomination、LLM usage 声明、dataset/code 链接、PDF/checklist 约束，以及不同会议的特殊政策。
+> 我在 OpenReview 上转投两篇论文，十几个作者。每换一个 venue，就要重新对 schema、作者 profile ID、reviewer nomination、LLM usage 声明、dataset/code 链接、PDF/checklist 约束和会议特殊政策。点着点着我突然觉得很累：我到底在做什么？为什么这件事到现在还不是 agent-native？
 >
-> **🧭 默认 dry-run 的自动化。**  
-> Agent 应该先帮助研究者 inspect、plan、validate 和 explain，再决定是否写入 OpenReview。
+> **🧭 和 agent 聊了十分钟。**  
+> 我把这个痛点讲给 coding agent，它很快变成了这个项目：一个本地工具层，先帮研究者 inspect、plan、validate、explain 和 dry-run，再决定是否真的写入 OpenReview。
 >
 > **🔓 为什么开源？**  
-> 很多 OpenReview 自动化都散落在私人脚本里。OpenReview Agent 提供一个可检查、可复现、默认安全的本地 skill 与 CLI 工具层。
+> 很多 OpenReview 自动化都散落在私人脚本里。OpenReview Agent 提供一个可检查、可复现、默认 dry-run 的本地 skill 与 CLI 工具层，让投稿工作流更安全。
 
 ## 🧭 快速导航
 
@@ -60,13 +60,9 @@
 
 ## ⚡ 快速开始
 
-```bash
-git clone https://github.com/OpenClaudex/openreview-agent.git
-cd openreview-agent
-pip install -r requirements.txt
-```
+告诉你的 coding agent：
 
-安装后，用自然语言指挥你的 coding agent 即可。例如：让它检查某个 OpenReview submission、根据单位证据匹配作者 profile、准备一次跨会场转投 dry-run，或在你明确确认后批量创建 submissions。
+> 从 https://github.com/OpenClaudex/openreview-agent 安装 OpenReview Agent，并把它配置成默认 dry-run 的 OpenReview 投稿/转投工具。
 
 OpenReview 凭据可以通过 token、环境变量或交互式输入提供。底层命令细节放在 [SKILL.md](SKILL.md)，不放在 README 里。
 

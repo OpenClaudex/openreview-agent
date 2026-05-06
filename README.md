@@ -33,13 +33,13 @@
 
 > [!IMPORTANT]
 > **📚 From manual forms to submission-native agents.**  
-> OpenReview workflows are more than a submit button: authors must align venue schemas, author profile IDs, reviewer nominations, LLM usage declarations, dataset/code links, PDF/checklist constraints, and conference-specific policies.
+> I was transferring two papers on OpenReview with a dozen-plus coauthors. Every venue field opened another checklist: author profile IDs, schema keys, reviewer nominations, LLM usage declarations, dataset/code links, PDFs, checklists, and conference-specific policies. After too many repeated clicks, I wondered: why is this still not agent-native?
 >
-> **🧭 Dry-run-first automation.**  
-> An agent should help researchers inspect, plan, validate, and explain submission edits before writing anything to OpenReview.
+> **🧭 Ten minutes with an agent.**  
+> I talked through the pain with a coding agent, and it became this project: a local tool that helps researchers inspect, plan, validate, explain, and dry-run OpenReview edits before anything is written.
 >
 > **🔓 Why open source it?**  
-> Many OpenReview workflows live in private scripts. OpenReview Agent provides an inspectable local skill and CLI toolkit for safe submission editing, cross-venue transfer preflight, and batch submission scaffolding.
+> Many OpenReview automations live in private scripts. OpenReview Agent provides an inspectable, reproducible, dry-run-first skill and CLI layer for safer submission workflows.
 
 ## 🧭 Quick Navigation
 
@@ -60,13 +60,9 @@
 
 ## ⚡ Quick Start
 
-```bash
-git clone https://github.com/OpenClaudex/openreview-agent.git
-cd openreview-agent
-pip install -r requirements.txt
-```
+Tell your coding agent:
 
-After installation, use it through natural-language agent instructions. For example, ask your coding agent to inspect an OpenReview submission, match author profiles with affiliation evidence, prepare a cross-venue transfer dry-run, or batch-create submissions only after explicit confirmation.
+> Install OpenReview Agent from https://github.com/OpenClaudex/openreview-agent and set it up for safe, dry-run-first OpenReview submission workflows.
 
 OpenReview credentials can be provided through a token, environment variables, or the interactive prompt. Low-level command details live in [SKILL.md](SKILL.md), not in this README.
 
