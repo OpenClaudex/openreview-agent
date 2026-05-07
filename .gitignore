@@ -2,6 +2,9 @@ __pycache__/
 *.py[cod]
 .env
 .env.*
+.openreview.env
+openreview.env
+*.local.env
 .venv/
 venv/
 .DS_Store

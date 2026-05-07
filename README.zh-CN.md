@@ -64,7 +64,18 @@
 
 > 从 https://github.com/OpenClaudex/openreview-agent 安装 OpenReview Agent，并把它配置成默认 dry-run 的 OpenReview 投稿/转投工具。
 
-OpenReview 凭据可以通过 token、环境变量或交互式输入提供。底层命令细节放在 [SKILL.md](SKILL.md)，不放在 README 里。
+OpenReview 凭据可以通过 token、环境变量、私有本地 `~/.openreview.env` 或交互式输入提供。底层命令细节放在 [SKILL.md](SKILL.md)，不放在 README 里。
+
+### 本地凭据文件
+
+如果经常本地使用，可以把 [`docs/openreview.env.example`](docs/openreview.env.example) 的结构复制到 `~/.openreview.env`，只在本地填真实值，并限制文件权限：
+
+```bash
+cp docs/openreview.env.example ~/.openreview.env
+chmod 600 ~/.openreview.env
+```
+
+CLI 会自动读取 `~/.openreview.env`。仓库里只提交结构示例，不能提交真实账号、密码或 token。
 
 ## ✨ 功能亮点
 
@@ -98,7 +109,7 @@ OpenReview Agent 把所有写操作都视为高风险操作。
 - **基于 schema 写入。** 目标 invitation schema 决定哪些字段可以被写。
 - **不静默猜作者。** 低置信度 profile 匹配需要人类确认。
 - **不默认生成复杂权限。** 默认不自造 readers/writers/nonreaders。
-- **不保存凭据。** token/password 不应进入日志、payload、截图或示例。
+- **不把凭据保存到仓库。** token/password 不应进入日志、payload、截图或示例；真实值只应放在 `~/.openreview.env` 这类本地私有文件。
 - **不生成 review，不做 spam。** 这不是自动审稿机器人，也不是批量滥投工具。
 
 在私有 venue 或真实投稿上使用前，请先阅读 [SECURITY.md](SECURITY.md)。
@@ -114,6 +125,7 @@ OpenReview Agent 不是完整审稿系统。它是一个本地执行层，用来
 - [Agent 指南](SKILL.md)
 - [安全策略](SECURITY.md)
 - [发布检查清单](docs/release-checklist.md)
+- 凭据模板：[`docs/openreview.env.example`](docs/openreview.env.example)
 - Venue 模板：[`config/venues`](config/venues)
 - CLI 工具：[`scripts/or_transfer.py`](scripts/or_transfer.py), [`scripts/or_batch.py`](scripts/or_batch.py)
 

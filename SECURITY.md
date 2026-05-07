@@ -1,11 +1,11 @@
 # Security Policy
 
-`openreview-transfer` can read and write real OpenReview submissions. Treat it as a high-trust local automation tool, not as a hosted submission service.
+`openreview-agent` can read and write real OpenReview submissions. Treat it as a high-trust local automation tool, not as a hosted submission service.
 
 ## Credential handling
 
 - Prefer `OPENREVIEW_TOKEN` when available.
-- If using username/password, pass them via `OPENREVIEW_USERNAME` and `OPENREVIEW_PASSWORD`, or interactive prompt.
+- If using username/password, pass them via `OPENREVIEW_USERNAME` and `OPENREVIEW_PASSWORD`, private `~/.openreview.env`, or interactive prompt.
 - Do not put passwords or tokens in shell history, logs, issue reports, screenshots, or examples.
 - The tool must not persist credentials to payload files, plans, logs, or browser snapshots.
 

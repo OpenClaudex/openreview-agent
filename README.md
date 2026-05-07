@@ -64,7 +64,18 @@ Tell your coding agent:
 
 > Install OpenReview Agent from https://github.com/OpenClaudex/openreview-agent and set it up for safe, dry-run-first OpenReview submission workflows.
 
-OpenReview credentials can be provided through a token, environment variables, or the interactive prompt. Low-level command details live in [SKILL.md](SKILL.md), not in this README.
+OpenReview credentials can be provided through a token, environment variables, a private local `~/.openreview.env`, or the interactive prompt. Low-level command details live in [SKILL.md](SKILL.md), not in this README.
+
+### Local credential file
+
+For repeated local use, copy the structure from [`docs/openreview.env.example`](docs/openreview.env.example) to `~/.openreview.env`, fill values locally, and restrict file permissions:
+
+```bash
+cp docs/openreview.env.example ~/.openreview.env
+chmod 600 ~/.openreview.env
+```
+
+The CLI loads `~/.openreview.env` automatically. Commit only the example structure, never real account values.
 
 ## ✨ Features
 
@@ -98,7 +109,7 @@ OpenReview Agent treats every write as high-risk.
 - **Schema-aware writes.** Target invitation schema decides which content fields are allowed.
 - **No silent author guessing.** Low-confidence author profile matches should be confirmed by a human.
 - **No default complex permissions.** The tool does not invent `readers`, `writers`, or `nonreaders` by default.
-- **No credential persistence.** Tokens/passwords must not be written to logs, payload files, screenshots, or examples.
+- **No credential persistence in the repo.** Tokens/passwords must not be written to logs, payload files, screenshots, or examples; keep real values only in local private files such as `~/.openreview.env`.
 - **No review generation or spam.** The project is not a review bot and not a bulk-submission spam tool.
 
 Read [SECURITY.md](SECURITY.md) before using this on private venues or live submissions.
@@ -114,6 +125,7 @@ OpenReview Agent is not a full reviewing system. It is a local execution layer f
 - [Agent Guide](SKILL.md)
 - [Security Policy](SECURITY.md)
 - [Release Checklist](docs/release-checklist.md)
+- Credential template: [`docs/openreview.env.example`](docs/openreview.env.example)
 - Venue templates: [`config/venues`](config/venues)
 - CLI tools: [`scripts/or_transfer.py`](scripts/or_transfer.py), [`scripts/or_batch.py`](scripts/or_batch.py)
 

@@ -7,7 +7,7 @@ Design principles:
 - Never submit without explicit --i-confirm on the submit subcommand.
 - Plan is the hard gate: any red light blocks downstream steps.
 - No silent enum mapping: ambiguous fields are reported, not guessed.
-- Credentials via env vars only; never written to any file.
+- Credentials via env vars or a private local ~/.openreview.env file.
 """
 
 from __future__ import annotations
@@ -28,7 +28,42 @@ from urllib.parse import urlparse, parse_qs
 # Client bootstrap
 # ---------------------------------------------------------------------------
 
-def _load_client():
+_ALLOWED_ENV_KEYS = {
+    "OPENREVIEW_BASE_URL",
+    "OPENREVIEW_TOKEN",
+    "OPENREVIEW_USERNAME",
+    "OPENREVIEW_PASSWORD",
+}
+
+
+def _load_local_env(path: Path = Path.home() / ".openreview.env") -> None:
+    """Load private local OpenReview credentials without requiring shell source."""
+    if not path.exists():
+        return
+    for raw_line in path.read_text().splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("export "):
+            line = line[len("export "):].strip()
+        if "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        if key not in _ALLOWED_ENV_KEYS:
+            continue
+        value = value.strip().strip('"').strip("'")
+        os.environ.setdefault(key, value)
+
+
+def _arg_value(args: Optional[argparse.Namespace], name: str) -> Optional[str]:
+    if args is None:
+        return None
+    return getattr(args, name, None)
+
+
+def _load_client(args: Optional[argparse.Namespace] = None):
+    _load_local_env()
     try:
         import openreview  # noqa: F401
         from openreview.api import OpenReviewClient
@@ -38,18 +73,25 @@ def _load_client():
             "Run: pip install --user openreview-py"
         )
 
-    username = os.environ.get("OPENREVIEW_USERNAME")
-    password = os.environ.get("OPENREVIEW_PASSWORD")
-    if not username or not password:
-        sys.exit(
-            "ERROR: OPENREVIEW_USERNAME / OPENREVIEW_PASSWORD env vars required."
-        )
+    baseurl = _arg_value(args, "baseurl") or os.environ.get("OPENREVIEW_BASE_URL", "https://api2.openreview.net")
+    token = _arg_value(args, "token") or os.environ.get("OPENREVIEW_TOKEN")
+    username = _arg_value(args, "username") or os.environ.get("OPENREVIEW_USERNAME")
+    password = _arg_value(args, "password") or os.environ.get("OPENREVIEW_PASSWORD")
+    if username and not password and sys.stdin.isatty():
+        password = getpass.getpass("OpenReview password: ")
 
-    baseurl = os.environ.get("OPENREVIEW_BASE_URL", "https://api2.openreview.net")
     try:
-        return OpenReviewClient(baseurl=baseurl, username=username, password=password)
+        if token:
+            return OpenReviewClient(baseurl=baseurl, token=token)
+        if username and password:
+            return OpenReviewClient(baseurl=baseurl, username=username, password=password)
     except Exception as exc:  # pragma: no cover - network dependent
         sys.exit(f"ERROR: failed to authenticate with OpenReview: {exc}")
+
+    sys.exit(
+        "ERROR: OpenReview credentials required. Set OPENREVIEW_TOKEN or "
+        "OPENREVIEW_USERNAME / OPENREVIEW_PASSWORD in env or ~/.openreview.env."
+    )
 
 
 # ---------------------------------------------------------------------------
